@@ -1,7 +1,8 @@
 ### Setting up the Database
-```mysql -u <username> -p
-<password>
 
+`mysql -u <username> -p`
+
+```mysql
 CREATE DATABASE PyExtractor CHARACTER SET UTF8;
 CREATE USER sih@localhost IDENTIFIED BY 'ISRO@PyE18';
 GRANT ALL PRIVILEGES ON PyExtractor.* TO sih@localhost;
