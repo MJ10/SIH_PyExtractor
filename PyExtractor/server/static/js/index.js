@@ -8,11 +8,11 @@ $(document).ready(function() {
 
     setTimeout(function() {
         autoplay();
-    }, 3000);   
+    }, 6000);   
 
 }); 
 
 function autoplay() {
     $('.carousel').carousel('next');
-    setTimeout(autoplay, 4500);
+    setTimeout(autoplay, 6500);
 }

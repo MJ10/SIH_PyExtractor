@@ -1,46 +1,51 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Py Extractor</title>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-	<link rel="stylesheet" href="../server/static/css/main.css">
+	<link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body>
 	<div class="carousel carousel-slider center">
 		<div class="carousel-fixed-item center">
-			<a class="btn-large waves-effect waves-light white" style="color:black"><b>UPLOAD</b></a>
-			<a class="btn-large waves-effect waves-light white" style="color:black"><b>EXPLORE</b></a>
+			<a href="/upload" class="btn-large waves-effect waves-light white" style="color:black"><b>UPLOAD</b></a>
+			<a href="/explore" class="btn-large waves-effect waves-light white" style="color:black"><b>EXPLORE</b></a>
 		</div>
 		<div class="carousel-fixed-item white-text" href="" id="title">
-			<h1>Py Extractor</h1>
+			<h2>PyExtractor</h2>
 			<p class="white-text"></p>
 		</div>
-		<div class="carousel-item amber white-text" href="#two!">
+		<div class="carousel-item  white-text" href="#two!" style="background-color:#193666">
+		<!-- style="background-image:url(https://media.giphy.com/media/l46Cy1rHbQ92uuLXa/giphy.gif); background-size:cover;background-position: center center; background-repeat: no-repeat;"> -->
 			<h2>Reliable</h2>
 			<p class="white-text">This is your second panel</p>
 		</div>
-		<div class="carousel-item green white-text" href="#three!">
+		<div class="carousel-item green white-text" href="#three!"
+		>
 			<h2>Offline</h2>
 			<p class="white-text">This is your third panel</p>
 		</div>
-		<div class="carousel-item blue white-text" href="#four!">
+		<div class="carousel-item teal lighten-2 white-text" href="#four!">
 			<h2>Class Apart</h2>
 			<p class="white-text">This is your fourth panel</p>
 		</div>
 	</div>
+	<!-- <hr> -->
 	<footer class="page-footer">
 		<div class="container">
 			<div class="row">
 				<div class="col l5 s12">
-					<h5 class="white-text">ISRO</h5>
-					<img width=100px src="../server/static/images/isro.png"/>
+					<!-- <h5 class="white-text">ISRO</h5> -->
+					<img width ="130px" src="/static/images/isro.png"/>
 				</div>
 				<div class="col l3 s12">
 					<h5 class="white-text">Usage</h5>
 					<ul>
-						<li><a class="grey-text text-lighten-3" href="#!">How it works</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">Demo</a></li>
+						<!-- <li><a class="grey-text text-lighten-3" href="#!">How it works</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">Demo</a></li> -->
 						<li><a class="grey-text text-lighten-3" href="#!">Upload</a></li>
 						<li><a class="grey-text text-lighten-3" href="#!">Explore</a></li>
 					</ul>
@@ -64,7 +69,7 @@
 	<!-- jQuery -->
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<!-- JavaScript -->
-	<script src="../server/static/js/index.js" type="text/javascript"></script>
+	<script src="/static/js/index.js" type="text/javascript"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 </body>

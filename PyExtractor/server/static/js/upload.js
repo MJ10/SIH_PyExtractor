@@ -1,5 +1,6 @@
 var departments = ['Geology', 'Astromony', 'Physics'];
 
+
 $(document).ready(function (){
     var optionsList = $('select');
     // fill options
@@ -24,7 +25,7 @@ $(document).ready(function (){
         console.log(formData);
         console.log($('select').val());
     });
-
+   
 });
 
 

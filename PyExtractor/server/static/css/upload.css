@@ -20,7 +20,7 @@ form {
 }
 
 select {
-    color : #B71C1C !important;
+    color : #193666 !important;
 }
 
 .btn-floating {
@@ -28,17 +28,17 @@ select {
 }
 
 .btn {
-    background-color: #F44336;
+    background-color: #193666;
 }
 .btn:hover{ 
-    background-color: #B71C1C; 
+    background-color: #254e8f; 
 }
 .btn:focus{ 
-    background-color: #B71C1C; 
+    background-color: #10223f; 
 }
 
 nav {
-    background-color: #F44336;
+    background-color: #193666;
 }
 
 #toast-container {
