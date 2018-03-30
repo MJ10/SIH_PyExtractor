@@ -37,7 +37,7 @@ def upload(request):
 
         # TODO : Extract images from uploaded zip
         dest_path = os.path.join("media",foldername)
-        print("Extracted images in" + dest_path)
+        print("Extracted images in " + dest_path)
         zip_extract(path, dest_path)
 
         # Stores list of metadata for uploaded images 
