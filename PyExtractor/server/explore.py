@@ -37,7 +37,7 @@ def explore(request):
 			print(form.cleaned_data['longitude'])
 			print(form.cleaned_data['distance'])
 			# Query to find images in that range
-			find_images(form.cleaned_data['department'],form.cleaned_data['latitude'],form.cleaned_data['longitude'], form.cleaned_data['distance'])
+			find_images(form.cleaned_data['department'],form.cleaned_data['latitude'],form.cleaned_data['longitude'], form.cleaned_data['distance'], form.cleaned_data['choice'], form.cleaned_data['input_text'])
 	else:
 		form = QueryForm()
 	template_data['form'] = form
@@ -45,7 +45,7 @@ def explore(request):
 
 
 # Function to find images having the distance which user wants
-def find_images(department,latitude,longitude, distance):
+def find_images(department,latitude,longitude, distance, choice, input_text):
 	print(department,latitude,longitude)
 	phi1 = toRadians(latitude)
 	lambda1 = toRadians(longitude)
@@ -56,8 +56,12 @@ def find_images(department,latitude,longitude, distance):
 		phi2 = toRadians(asseti.latitude)
 		lambda2 = toRadians(asseti.longitude)
 		got_distance = getDistance(phi1,phi2,lambda1,lambda2,distance)
-		if got_distance < int(distance) and asseti.department == department:
-			print(got_distance)
+		if int(choice) == 0:
+			if got_distance < int(distance) and asseti.department == department and asseti.kind == str(input_text):
+				print(asseti.img_name)
+		else:
+			if got_distance < int(distance) and asseti.department == department and asseti.capacity == int(input_text):
+				print(asseti.img_name)
 
 
 # Convert the latitude and longitude to Radians

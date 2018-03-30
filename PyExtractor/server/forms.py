@@ -1,6 +1,6 @@
 from datetime import date
 from django import forms
-from server.models import DEPARTMENTS, asset
+from server.models import DEPARTMENTS, asset, CHOICE
 
 
 def setup_field(field, placeholder=None):
@@ -43,10 +43,16 @@ class QueryForm(BasicForm):
 	setup_field(longitude,'Enter the longitude')
 	distance = forms.CharField(required=True, max_length=50)
 	setup_field(distance,'Enter the distance(in km)')
+	choice = forms.ChoiceField(choices=CHOICE)
+	setup_field(choice,'Choose your choice')
+	input_text = forms.CharField(required=True, max_length=50)
+	setup_field(input_text,'Enter the value')
 
 	def assign(self, query):
 		query.department = self.cleaned_data['department']
 		query.latitude = self.cleaned_data['latitude']
 		query.longitude = self.cleaned_data['longitude']
-		query.distance = selff.cleaned_data['distance']
+		query.distance = self.cleaned_data['distance']
+		query.choice = self.cleaned_data['choice']
+		query.input_text = self.cleaned_data['input_text']
  
