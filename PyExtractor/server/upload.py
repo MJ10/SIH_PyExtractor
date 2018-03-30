@@ -28,7 +28,8 @@ def upload(request):
         file = fs.save(os.path.join(foldername,zip.name), zip)
         path = os.path.join("media",file)
         print(file + " stored in " + path)
-        zip_extract(path,foldername)
+
+        zip_extract(path,os.path.join("media",foldername))
 
 		# TODO : Extract media/a/a.zip to 
         return render(request, 'upload.html', {
