@@ -17,14 +17,14 @@
 
 		  <h4>Browse for File </h4>
 		  
-          <form method="post" enctype="multipart/form-data" id="js-upload-form">
-          {% csrf_token %}
-            <div class="form-inline">
-              <div class="form-group">
-                <input type="file" name="zip" id="js-upload-files">
-              </div>
-              <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+        <form method="post" enctype="multipart/form-data" id="js-upload-form">
+        {% csrf_token %}
+          <div class="form-inline">
+            <div class="form-group">
+              <input type="file" name="zip" id="js-upload-files">
             </div>
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+          </div>
 		  </form>
 		  
              {% if uploaded_file_url %}
