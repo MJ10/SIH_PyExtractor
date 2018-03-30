@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +7,7 @@
 
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-	<link rel="stylesheet" href="../server/static/css/main.css">
+	<link rel="stylesheet" href="/static/css/main.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
@@ -27,7 +29,8 @@
 		</div>
 
 		<!-- Select File -->
-		<form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
 				<div class = "file-field input-field">
 					<div class = "btn">
 						<span>Browse</span>
@@ -37,23 +40,26 @@
 						<input class = "file-path validate" type = "text"
 						placeholder = "Upload file" />
 					</div>
-				</div>
+        </div>
+        <!-- Upload -->
+	    	<!-- <a type="submit" class="btn-floating btn-large waves-effect waves-light red" id="upload">
+        <i class="material-icons">file_upload</i></a> -->
+        <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
 		</form>
 
-		<!-- Upload -->
-		<a class="btn-floating btn-large waves-effect waves-light red" id="upload"><i class="material-icons">file_upload</i></a>
+		
 	</div>
 	
 	<!-- jQuery -->
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<!-- JavaScript -->
-	<script src="../server/static/js/index.js" type="text/javascript"></script>
+	<script src="/static/js/index.js" type="text/javascript"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 
 
 
-<!-- {% load static %}
+<!-- 
 {% block content %}
 
 <div class="container">
