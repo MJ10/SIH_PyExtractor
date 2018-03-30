@@ -6,6 +6,7 @@ import glob
 import shutil
 import pytesseract
 import subprocess
+from server.preprocess import Preprocessing
 from PIL import Image
 sys.path.append(os.path.join(os.getcwd(), 'server', 'seg_model'))
 from lib.networks.factory import get_network
@@ -25,7 +26,7 @@ net = get_network("VGGnet_test")
 # load model
 print(('Loading network {:s}... '.format("VGGnet_test")), end=' ')
 saver = tf.train.Saver()
-
+pr = Preprocessing()
 l = []
 
 try:
@@ -67,8 +68,10 @@ def draw_boxes(img,image_name,boxes,scale):
                             max([int(box[2]),int(box[6])]), max([int(box[5]),int(box[7])]))
         cropped_im = im.crop(crop_rectangle)
         cropped_im.save('server/res/result' + str(count) + '.png', dpi=(600,600))
-        subprocess.run(['python', 'server/process.py', 'server/res/result' + str(count) + '.png',
-                        'server/res/result' + str(count) + '.png'])
+        # subprocess.run(['python', 'server/process.py', 'server/res/result' + str(count) + '.png',
+        #                 'server/res/result' + str(count) + '.png'])
+        
+        pr.preprocess('server/res/result' + str(count) + '.png', 'server/res/result' + str(count) + '.png')
         # a = cv2.imread('res/result' + str(count) + '.png')
         # preprocess.img_x = len(a)
         # preprocess.img_y = len(a[0])
