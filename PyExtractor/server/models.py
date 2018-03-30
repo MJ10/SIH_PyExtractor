@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import date
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 DEPARTMENTS = (
@@ -10,6 +10,59 @@ DEPARTMENTS = (
 CHOICE = (
 	(0,'Kind'), (1,'capacity')
 	)
+
+# class Profile(models.Model):
+# 	department = models.CharField(max_length=100)
+
+class Account(models.Model):
+	ACCOUNT_ISRO = 10
+	ACCOUNT_AGRI = 20
+	ACCOUNT_DEF = 30
+	ACCOUNT_TELE = 40
+	ACCOUNT_IT = 50
+	ACCOUNT_ADMIN = 60
+	ACCOUNT_TYPES = (
+		(ACCOUNT_ISRO, "ISRO"),
+		(ACCOUNT_AGRI, "Agriculture"),
+		(ACCOUNT_DEF, "Defence"),
+		(ACCOUNT_TELE, "Telecommunications"),
+		(ACCOUNT_IT, "IT"),
+		(ACCOUNT_ADMIN,"Admin")
+	)
+	EMPLOYEE_TYPES = (
+		(ACCOUNT_ISRO, "ISRO"),
+		(ACCOUNT_AGRI, "Agriculture"),
+		(ACCOUNT_DEF, "Defence"),
+		(ACCOUNT_TELE, "Telecommunications"),
+		(ACCOUNT_IT, "IT"),
+		(ACCOUNT_ADMIN, "Admin")
+	)
+
+	@staticmethod
+	def to_name(key):
+		for item in Account.ACCOUNT_TYPES:
+			if item[0]==key:
+				return item[1]
+		return "None"
+
+	@staticmethod
+	def to_value(key):
+		key = key.lower()
+		for item in Account.ACCOUNT_TYPES:
+			if item[1].lower() == key:
+				return item[0]
+		return 0
+
+	role = models.IntegerField(default=0, choices=ACCOUNT_TYPES)
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+
+	class Admin:
+		list_display = (
+			'role',
+			'user',
+		)
+
 
 class asset(models.Model):
 	img_name = models.CharField(max_length=200)
