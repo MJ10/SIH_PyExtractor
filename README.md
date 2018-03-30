@@ -1,3 +1,13 @@
+
+### Install Dependencies
+
+
+
+#### MySQL
+* `sudo apt-get install mysql-server-5.7`
+* `sudo apt-get install libmysqlclient-dev`
+
+
 ### Setting up the Database
 
 `mysql -u <username> -p`

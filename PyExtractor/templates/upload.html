@@ -5,5 +5,52 @@
 </head>
 <body>
 <h1>Upload</h1>
+
+
+{% load static %}
+{% block content %}
+
+<div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Upload</strong> <small></small></div>
+        <div class="panel-body">
+
+		  <h4>Browse for File </h4>
+		  
+          <form method="post" enctype="multipart/form-data" id="js-upload-form">
+          {% csrf_token %}
+            <div class="form-inline">
+              <div class="form-group">
+                <input type="file" name="zip" id="js-upload-files">
+              </div>
+              <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+            </div>
+		  </form>
+		  
+             {% if uploaded_file_url %}
+                 <hr>
+                <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+                  <img alt="Equation" src="{{ uploaded_file_url }}" width="30%">
+			  {% endif %}
+			  
+        </div>
+      </div>
+	</div>
+	 <!-- /container -->
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
