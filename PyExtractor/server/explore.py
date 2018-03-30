@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from server import models
-from server.models import asset
+from server.models import asset, Account
 from server.forms import QueryForm
 import math
+from server import views
 
 radius_of_earth = 6371
 
@@ -25,6 +26,9 @@ def parse_session(request, template_data=None):
 
 
 def explore(request):
+	authentication_result = views.authentication_check(request, [Account.ACCOUNT_ADMIN])
+	if authentication_result is not None:
+		return authentication_result
 	template_data = parse_session(
 		request,
 		{'form_button':'Query'}

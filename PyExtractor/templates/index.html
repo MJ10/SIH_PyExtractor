@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load app_filters %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,11 +8,17 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
 	<link rel="stylesheet" href="/static/css/main.css">
 </head>
-<body>
+<body unselectable="on" onselectstart="return false;" onmousedown="return false">
 	<div class="carousel carousel-slider center">
 		<div class="carousel-fixed-item center">
-			<a href="/upload" class="btn-large waves-effect waves-light white" style="color:black"><b>UPLOAD</b></a>
-			<a href="/explore" class="btn-large waves-effect waves-light white" style="color:black"><b>EXPLORE</b></a>
+			{% if user|isAuthenticated %}
+				<a href="/upload" class="btn-large waves-effect waves-light white" style="color:black"><b>UPLOAD</b></a>
+				<a href="/explore" class="btn-large waves-effect waves-light white" style="color:black"><b>EXPLORE</b></a>
+			{% else %}
+				<a href="/login" class="btn-large waves-effect waves-light white" style="color:black"><b>LOGIN</b></a>
+			{% endif %}
+<!-- 			<a href="/upload" class="btn-large waves-effect waves-light white" style="color:black"><b>UPLOAD</b></a>
+			<a href="/explore" class="btn-large waves-effect waves-light white" style="color:black"><b>EXPLORE</b></a> -->
 		</div>
 		<div class="carousel-fixed-item white-text" href="" id="title">
 			<h2>PyExtractor</h2>
@@ -44,10 +50,12 @@
 				<div class="col l3 s12">
 					<h5 class="white-text">Usage</h5>
 					<ul>
-						<!-- <li><a class="grey-text text-lighten-3" href="#!">How it works</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">Demo</a></li> -->
-						<li><a class="grey-text text-lighten-3" href="#!">Upload</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">Explore</a></li>
+						{% if user|isAuthenticated %}
+							<li><a class="grey-text text-lighten-3" href="/upload">Upload</a></li>
+							<li><a class="grey-text text-lighten-3" href="/explore">Explore</a></li>
+						{% else %}
+							<li><a class="grey-text text-lighten-3" href="/login">Login</a></li>
+						{% endif %}
 					</ul>
 				</div>
 				<div class="col l2 s12">
