@@ -55,7 +55,7 @@ def find_images(department,latitude,longitude, distance):
 		#print(asseti.img_name,asseti.img_path,asseti.extracted_text,asseti.latitude,asseti.longitude,asseti.department,asseti.time)			
 		phi2 = toRadians(asseti.latitude)
 		lambda2 = toRadians(asseti.longitude)
-		got_distance = getDistance(phi1,phi2,lambda1,lambda2,radius)
+		got_distance = getDistance(phi1,phi2,lambda1,lambda2,distance)
 		if got_distance < int(distance) and asseti.department == department:
 			print(got_distance)
 
