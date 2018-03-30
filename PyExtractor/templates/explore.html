@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>PyExtractor</title>
 </head>
 <body>
 <h1>Explore</h1>
+<form class="form-horizontal" method="post" enctype="multipart/form-data">{% csrf_token %}
+{% for field in form %}
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="">{{ field.label }}</label>
+        <div class="col-sm-10">{{ field }}</div>
+    </div>
+{% endfor %}
+<button >{{ form_button }}</button>
+</form>
+
 </body>
 </html>

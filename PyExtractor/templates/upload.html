@@ -10,6 +10,7 @@
 
 </head>
 <body>
+	
 	<nav>
 		<div class="nav-wrapper">
 			<a href="#" class="brand-logo">Py Extractor</a>
@@ -26,11 +27,11 @@
 		</div>
 
 		<!-- Select File -->
-		<form>
+		<form method="post" enctype="multipart/form-data">
 				<div class = "file-field input-field">
 					<div class = "btn">
 						<span>Browse</span>
-						<input type = "file" />
+						<input type = "file" name="zip"/>
 					</div>
 					<div class = "file-path-wrapper">
 						<input class = "file-path validate" type = "text"
@@ -49,5 +50,43 @@
 	<script src="../server/static/js/index.js" type="text/javascript"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+
+
+<!-- {% load static %}
+{% block content %}
+
+<div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Upload</strong> <small></small></div>
+        <div class="panel-body">
+
+		  <h4>Browse for File </h4>
+		  
+        <form method="post" enctype="multipart/form-data" id="js-upload-form">
+        {% csrf_token %}
+          <div class="form-inline">
+            <div class="form-group">
+              <input type="file" name="zip" id="js-upload-files">
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+          </div>
+		  </form>
+		  
+             {% if uploaded_file_url %}
+                 <hr>
+                <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+                  <img alt="Equation" src="{{ uploaded_file_url }}" width="30%">
+			  {% endif %}
+			  
+        </div>
+      </div>
+	</div>
+	  /container 
+
+
+ {% endblock %} -->
+
+
 </body>
 </html>
