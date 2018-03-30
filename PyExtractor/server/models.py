@@ -17,7 +17,14 @@ class asset(models.Model):
 	time = models.DateTimeField(auto_now_add=True)
 
 	"""docstring for asset"""
-	def __init__(self, arg):
-		super(asset, self).__init__()
-		self.arg = arg
+	# def __init__(self,img_name,img_path,extracted_text,latitude,longitude,department,time):
+	# 	self.img_name = img_name
+	# 	self.img_path = img_path
+	# 	self.extracted_text = extracted_text
+	# 	self.latitude = latitude
+	# 	self.longitude = longitude
+	# 	self.department = department
+	# 	self.time = time
+	def __str__(self):
+		return self.img_name,self.img_path,self.extracted_text,self.latitude,self.longitude,self.department,self.time
 		
