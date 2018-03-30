@@ -16,6 +16,7 @@ from lib.utils.timer import Timer
 from lib.text_connector.detectors import TextDetector
 from lib.text_connector.text_connect_cfg import Config as TextLineCfg
 
+
 cfg_from_file('server/seg_model/ctpn/text.yml')
 
 # init session
@@ -28,7 +29,7 @@ print(('Loading network {:s}... '.format("VGGnet_test")), end=' ')
 saver = tf.train.Saver()
 pr = Preprocessing()
 l = []
-
+global curr_s
 try:
     ckpt = tf.train.get_checkpoint_state(cfg.TEST.checkpoints_path)
     # print('Restoring from {}...'.format(ckpt.model_checkpoint_path), end=' ')
@@ -44,6 +45,7 @@ def resize_im(im, scale, max_scale=None):
     return cv2.resize(im, None,None, fx=f, fy=f,interpolation=cv2.INTER_LINEAR), f
 
 def draw_boxes(img,image_name,boxes,scale):
+    global curr_s
     count = 0
     for box in boxes:
         if box[8]>=0.9:
@@ -118,12 +120,15 @@ def extract_text(input_file):
     return pytesseract.image_to_string(Image.open(input_file), lang='hin+tam+tel')
 
 def segment_images(image_folder):
+    global curr_s
     im_names = glob.glob(os.path.join(image_folder, '*.png')) + \
         glob.glob(os.path.join(image_folder, '*.jpg')) + \
         glob.glob(os.path.join(image_folder, '*.jpeg'))
         
 
     for im_name in im_names:
+        curr_s = ''
         ctpn(sess, net, im_name)
-
+        print(curr_s)
+        l.append(curr_s)
     return l

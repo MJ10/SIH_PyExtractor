@@ -40,8 +40,11 @@ def explore(request):
 			print(form.cleaned_data['latitude'])
 			print(form.cleaned_data['longitude'])
 			print(form.cleaned_data['distance'])
+			print(form.cleaned_data['year'])
+			print(form.cleaned_data['input_type_text'])
+			print(form.cleaned_data['input_type_capacity'])
 			# Query to find images in that range
-			find_images(form.cleaned_data['department'],form.cleaned_data['latitude'],form.cleaned_data['longitude'], form.cleaned_data['distance'], form.cleaned_data['choice'], form.cleaned_data['input_text'])
+			find_images(form.cleaned_data['department'],form.cleaned_data['latitude'],form.cleaned_data['longitude'], form.cleaned_data['distance'], form.cleaned_data['year'], form.cleaned_data['input_text_type'], form.cleaned_data['input_text_capacity'])
 	else:
 		form = QueryForm()
 	template_data['form'] = form
@@ -49,7 +52,7 @@ def explore(request):
 
 
 # Function to find images having the distance which user wants
-def find_images(department,latitude,longitude, distance, choice, input_text):
+def find_images(department,latitude,longitude, distance, year, input_text_type, input_text_capacity):
 	print(department,latitude,longitude)
 	phi1 = toRadians(latitude)
 	lambda1 = toRadians(longitude)

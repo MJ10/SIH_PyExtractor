@@ -61,7 +61,7 @@ def logout_view(request):
 def login_view(request):
     # Authentication check. Users currently logged in cannot view this page.
     if request.user.is_authenticated:
-        return HttpResponseRedirect('/profile/')
+        return HttpResponseRedirect('/explore/')
     # get template data from session
     template_data = views.parse_session(request,{'form_button':"Login"})
     # Proceed with the rest of view
@@ -74,7 +74,7 @@ def login_view(request):
             )
             login(request,user)
             request.session['alert_success'] = "Successfully logged into PyExtractor."
-            return HttpResponseRedirect('/profile/')
+            return HttpResponseRedirect('/explore/')
     else:
         form = LoginForm()
     template_data['form'] = form

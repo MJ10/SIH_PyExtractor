@@ -7,8 +7,8 @@ import _thread
 import os.path
 
 from utilities.zip_extract import zip_extract
-from utilities.location import getGPS
-from server.models import DEPARTMENTS, Account
+from utilities.location import getData
+from server.models import DEPARTMENTS, Account, asset
 from server.forms import UploadForm
 from server.views import parse_session
 from server import views
@@ -23,8 +23,12 @@ def upload(request):
         request,
         {'form_button':'Upload'}
     )
+    #print(request.user)
     if request.method == 'POST' and request.FILES['zip']:
         # TODO : Wrap everything in a new process
+            print(request.user)
+            account = Account.objects.get(user=request.user)
+            #print(account.role)
 
             zip_f = request.FILES['zip']
             fs = FileSystemStorage()
@@ -41,7 +45,7 @@ def upload(request):
             # dest_path = os.path.join("media",foldername)
             # print("Extracted images in " + dest_path)
             # zip_extract(path, dest_path)
-            _thread.start_new_thread(extract_data, (zip_f, path))
+            _thread.start_new_thread(extract_data, (zip_f, path, request.user, account.role))
             # # Stores list of metadata for uploaded images 
             # # TODO : extend to include other metadata
             # metadata = []
@@ -106,7 +110,7 @@ def upload(request):
 
     return render(request, 'upload.html')
 
-def extract_data(zip_f, path):
+def extract_data(zip_f, path, owner, role):
     foldername = zip_f.name.split(".")[0]
     dest_path = os.path.join("media",foldername)
     print("Extracted images in " + dest_path)
@@ -114,17 +118,50 @@ def extract_data(zip_f, path):
 
     # Stores list of metadata for uploaded images 
     # TODO : extend to include other metadata
-    metadata = []
-
-    # TODO : Extract Metadata from images
-    for file in os.listdir(dest_path):            
-        # TODO : Change for other file types
-        if(file.find('.jpg')):  
-            gps = getGPS(os.path.join(dest_path,file))
-            metadata.append(gps)
+    #print(request)
+    #metadata = []
+    index = 0
     extracted_text = server.demo.segment_images(os.path.join("media",foldername))
-    print(extracted_text)
-    print(metadata)
+    #print(len(extracted_text))
+    # TODO : Extract Metadata from images
+    for file in os.listdir(dest_path): 
+        # TODO : Change for other file types
+        if(file.find('.jpg')):
+            gps = getData(os.path.join(dest_path,file))
+            #print(gps)
+            metadata = []
+            # print(type(gps))
+            if gps['latitude'] is not None:
+                metadata =asset(
+                    latitude= gps['latitude'],
+                    longitude= gps['longitude'],
+                    img_name= file, 
+                    img_path= os.path.join(dest_path,file),
+                    time= gps['dateTaken'],
+                    owner= owner,
+                    department = role,
+                    extracted_text = extracted_text[index]
+                )
+                #print(metadata)
+                index = index + 1
+                metadata.save()
+            else:
+                metadata =asset(
+                    latitude= None,
+                    longitude= None,
+                    img_name= file, 
+                    img_path= os.path.join(dest_path,file),
+                    time = gps['dateTaken'],
+                    owner= owner,
+                    department = role,
+                    extracted_text = extracted_text[index]
+                )
+                index = index + 1
+                metadata.save()
+        if index == len(extracted_text):
+            break
+    #print(extracted_text)
+    #print(metadata)
 
     # return render(request, 'upload.html', {
     #     'uploaded_file_url': path
