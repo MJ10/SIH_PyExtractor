@@ -114,8 +114,6 @@ class AccountRegisterForm(BasicForm):
 
 
 class UploadForm(BasicForm):
-    department = forms.ChoiceField(choices=DEPARTMENTS)
-    setup_field(department,'Select the department')
     file = forms.FileField()
     setup_field(file,'Choose a zip')
 

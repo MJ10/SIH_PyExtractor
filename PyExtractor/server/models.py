@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 DEPARTMENTS = (
-	(0,'Department of ISRO'), (1,'Department of Agriculture'), (2,'Department of Space')
+	(10,'Department of ISRO'), (20,'Department of Agriculture'), (30,'Department of Defence'),
+	(40,'Department of Telecommunications'), (50,'Department of IT')
 	)
 
 CHOICE = (
