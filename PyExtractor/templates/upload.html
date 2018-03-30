@@ -1,9 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Py Extractor</title>
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+	<link rel="stylesheet" href="../server/static/css/main.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body>
-<h1>Upload</h1>
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo">Py Extractor</a>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<!--  Select department  -->
+		<div class="input-field col s12">
+			<select class="red ">
+				<option value="" disabled selected>Choose Department</option>
+			</select>
+		</div>
+
+		<!-- Select File -->
+		<form>
+				<div class = "file-field input-field">
+					<div class = "btn">
+						<span>Browse</span>
+						<input type = "file" />
+					</div>
+					<div class = "file-path-wrapper">
+						<input class = "file-path validate" type = "text"
+						placeholder = "Upload file" />
+					</div>
+				</div>
+		</form>
+
+		<!-- Upload -->
+		<a class="btn-floating btn-large waves-effect waves-light red" id="upload"><i class="material-icons">file_upload</i></a>
+	</div>
+	
+	<!-- jQuery -->
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+	<!-- JavaScript -->
+	<script src="../server/static/js/index.js" type="text/javascript"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 </body>
 </html>
