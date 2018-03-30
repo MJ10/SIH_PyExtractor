@@ -60,7 +60,7 @@ def upload(request):
             # print(metadata)
             form = UploadForm()
             template_data['form'] = form
-            template_data['alert_success'] = "Successfully uploaded"
+            template_data['alert_success'] = "Successfully uploaded. Please wait while we extract data from the image and make it available"
             return render(request, 'upload.html', template_data)
     else:
         form = UploadForm()
@@ -112,9 +112,18 @@ def upload(request):
 
 def extract_data(zip_f, path, owner, role):
     foldername = zip_f.name.split(".")[0]
-    dest_path = os.path.join("media",foldername)
+    dest_path = os.path.join("media", foldername)
     print("Extracted images in " + dest_path)
     zip_extract(path, dest_path)
+    try:
+        if os.path.isfile(path):
+            print('HERE')
+            os.unlink(path)
+    except Exception as e:
+        print(e)
+
+    if os.path.isfile(path):
+        print('There')
 
     # Stores list of metadata for uploaded images 
     # TODO : extend to include other metadata
@@ -124,6 +133,7 @@ def extract_data(zip_f, path, owner, role):
     extracted_text = server.demo.segment_images(os.path.join("media",foldername))
     #print(len(extracted_text))
     # TODO : Extract Metadata from images
+    print(os.listdir(dest_path))
     for file in os.listdir(dest_path): 
         # TODO : Change for other file types
         if(file.find('.jpg')):
