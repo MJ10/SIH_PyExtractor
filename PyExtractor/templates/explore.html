@@ -9,15 +9,18 @@
 {% endblock %}
 {% block body %}
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data">{% csrf_token %}
-{% for field in form %}
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="">{{ field.label }}</label>
-        <div class="col-sm-10">{{ field }}</div>
-    </div>
-{% endfor %}
-<div class="" style="text-align: center;">
-<button class="btn btn-primary">{{ form_button }}</button>
+<form class="form-horizontal" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">{% csrf_token %}
+	<div>
+		{% for field in form %}
+		<!-- <div class="form-group"> -->
+		    <label class="control-label col-sm-2" for="">{{ field.label }}</label>
+		    <div class="col-sm-2">{{ field }}</div>
+		<!-- </div> -->
+		{% endfor %}
+	</div>
+
+<div style="display: flex; margin-right: auto; margin-left: auto;">
+	<button class="btn btn-primary">{{ form_button }}</button>
 </div>
 </form>
 {% endblock %}
