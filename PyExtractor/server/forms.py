@@ -86,7 +86,7 @@ class UserRegistrationForm(BasicForm):
         This is to make sure both passwords fields have the same values in them. If they don't mark
         them as errous.
         """
-        cleaned_data = super(EmployeeRegistrationForm,self).clean()
+        cleaned_data = super(UserRegistrationForm,self).clean()
         password_first = cleaned_data.get('password_first')
         password_second = cleaned_data.get('password_second')
         if password_first and password_second and password_first!=password_second:
@@ -111,6 +111,13 @@ class AccountRegisterForm(BasicForm):
         if password_first and password_second and password_first!=password_second:
             self.mark_error('password_second','Passwords do not match')
         return cleaned_data
+
+
+class UploadForm(BasicForm):
+    department = forms.ChoiceField(choices=DEPARTMENTS)
+    setup_field(department,'Select the department')
+    file = forms.FileField()
+    setup_field(file,'Choose a zip')
 
 
 class QueryForm(BasicForm):

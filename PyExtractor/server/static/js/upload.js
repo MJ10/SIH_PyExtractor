@@ -2,10 +2,10 @@ var departments = ['Geology', 'Astromony', 'Physics'];
 
 
 $(document).ready(function (){
-    var optionsList = $('select');
+    var optionsList = $('dropdown-menu');
     // fill options
     for (var i = 0; i < departments.length; ++i) {
-        $('select').append($("<option></option>").attr("value", i).text(departments[i]));
+        $optionsList.append($("<option></option>").attr("value", i).text(departments[i]));
     }
     $('select').formSelect();
 

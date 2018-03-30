@@ -55,7 +55,7 @@ def logout_view(request):
         request.session['alert_success'] = saved_data['alert_success']
     if 'alert_danger' in saved_data:
         request.session['alert_danger'] = saved_data['alert_danger']
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/')
 
 
 def login_view(request):
@@ -96,9 +96,7 @@ def register_view(request):
             views.register_user(
                 form.cleaned_data['email'],
                 form.cleaned_data['password_first'],
-                form.cleaned_data['firstname'],
-                form.cleaned_data['lastname'],
-                Account.ACCOUNT_PATIENT
+                Account.ACCOUNT_ADMIN
             )
             user = authenticate(
                 username = form.cleaned_data['email'].lower(),
