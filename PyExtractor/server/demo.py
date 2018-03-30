@@ -7,7 +7,7 @@ import shutil
 import pytesseract
 import subprocess
 from PIL import Image
-sys.path.append(os.path.join(os.getcwd(), 'seg_model'))
+sys.path.append(os.path.join(os.getcwd(), 'server', 'seg_model'))
 from lib.networks.factory import get_network
 from lib.fast_rcnn.config import cfg,cfg_from_file
 from lib.fast_rcnn.test import test_ctpn
@@ -15,8 +15,7 @@ from lib.utils.timer import Timer
 from lib.text_connector.detectors import TextDetector
 from lib.text_connector.text_connect_cfg import Config as TextLineCfg
 
-
-cfg_from_file('seg_model/ctpn/text.yml')
+cfg_from_file('server/seg_model/ctpn/text.yml')
 
 # init session
 config = tf.ConfigProto(allow_soft_placement=True)
@@ -62,20 +61,19 @@ def draw_boxes(img,image_name,boxes,scale):
         ignore_mask_color = (255,)*channel_count
         cv2.fillPoly(mask, roi_corners, ignore_mask_color)
         masked_image = cv2.bitwise_and(img.copy(), mask)
-        cv2.imwrite('res/result' + str(count) + '.png', masked_image)
-        im = Image.open('res/result' + str(count) + '.png')
+        cv2.imwrite('server/res/result' + str(count) + '.png', masked_image)
+        im = Image.open('server/res/result' + str(count) + '.png')
         crop_rectangle = (min([int(box[0]),int(box[4])]), min([int(box[1]),int(box[3])]),
                             max([int(box[2]),int(box[6])]), max([int(box[5]),int(box[7])]))
         cropped_im = im.crop(crop_rectangle)
-        cropped_im.save('res/result' + str(count) + '.png', dpi=(600,600))
-        subprocess.run(['python', 'process.py', 'res/result' + str(count) + '.png',
-                        'res/result' + str(count) + '.png'])
+        cropped_im.save('server/res/result' + str(count) + '.png', dpi=(600,600))
+        subprocess.run(['python', 'server/process.py', 'server/res/result' + str(count) + '.png',
+                        'server/res/result' + str(count) + '.png'])
         # a = cv2.imread('res/result' + str(count) + '.png')
         # preprocess.img_x = len(a)
         # preprocess.img_y = len(a[0])
         # preprocess.preprocess('res/result' + str(count) + '.png', 'res/result' + str(count) + '.png')
-        s = extract_text('res/result' + str(count) + '.png')
-        print(s)
+        s = extract_text('server/res/result' + str(count) + '.png')
         l.append(s)
 
 # def draw_boxes(img,image_name,boxes,scale):
@@ -94,24 +92,17 @@ def draw_boxes(img,image_name,boxes,scale):
 #     cv2.imwrite(os.path.join("data/results", base_name), img)
 
 def ctpn(sess, net, image_name):
-    timer = Timer()
-    # timer.tic()
-
     img = cv2.imread(image_name)
     img, scale = resize_im(img, scale=TextLineCfg.SCALE, max_scale=TextLineCfg.MAX_SCALE)
     scores, boxes = test_ctpn(sess, net, img)
 
     textdetector = TextDetector()
     boxes = textdetector.detect(boxes, scores[:, np.newaxis], img.shape[:2])
-    print(boxes)
+    # print(boxes)
     draw_boxes(img, image_name, boxes, scale)
 
-    # timer.toc()
-    # print(('Detection took {:.3f}s for '
-           # '{:d} object proposals').format(timer.total_time, boxes.shape[0]))
-
 def extract_text(input_file):
-    return pytesseract.image_to_string(Image.open(input_file), lang='eng+hin', config='--psm 7')
+    return pytesseract.image_to_string(Image.open(input_file), lang='hin+tam+tel')
 
 def segment_images(image_folder):
     im_names = glob.glob(os.path.join(image_folder, '*.png')) + \
@@ -120,19 +111,6 @@ def segment_images(image_folder):
         
 
     for im_name in im_names:
-        # print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-        # print(('Demo for {:s}'.format(im_name)))
         ctpn(sess, net, im_name)
-segment_images(os.path.join(os.getcwd(), 'temp_img'))
 
-# if __name__ == '__main__':
-    # if os.path.exists("data/results/"):
-    #     shutil.rmtree("data/results/")
-    # os.makedirs("data/results/")
-
-    # im = 128 * np.ones((300, 300, 3), dtype=np.uint8)
-    # for i in range(2):
-    #     _, _ = test_ctpn(sess, net, im)
-
-
-
+    return l
