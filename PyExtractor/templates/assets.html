@@ -14,6 +14,7 @@
 		<th>Extracted Text</th>
 		<th>Latitude</th>
 		<th>Longitude</th>
+		<th>Image</th>
 		<th data-defaultsort='disabled'>Options</th>
 	</thead>
 	<tbody>
@@ -23,6 +24,15 @@
 			<td>{{ image.extracted_text }}</td>
 			<td>{{ image.latitude }}</td>
 			<td>{{ image.longitude }}</td>
+			<script type="text/javascript">
+                    function proxy1{{ image.pk }}() {
+                        configureModal1(
+                                {{ image.pk }},
+                                '{{ image.img_path }}',
+                            )
+                    };
+                </script>
+			<td><button onclick="proxy1{{ image.pk }}()" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#image-modal">View Image</button></td>
 			<td>
 				<a class="btn btn-warning btn-sm" href="/assets/update/?pk={{ image.pk }}" role="button">Update</a>
 				<script type="text/javascript">
@@ -39,6 +49,7 @@
 		{% endfor %}
 	</tbody>
 </table>
+{% include "image_modal.html" %}
 {% include "asset_modal.html" %}
 <script type="text/javascript">
 	$('#datatable').DataTable();
@@ -46,6 +57,19 @@
 	function configureModal(pk, img_name) {
             document.getElementById('confirm-modal-body').innerHTML = 'Are you sure you want to delete the image '.concat(img_name ,'?');
             document.getElementById('confirm-modal-hidden').value = pk;
+        }
+
+     function configureModal1(pk, img_path) {
+     		var x = document.getElementById("omkar");
+     		if(x != null) 
+     		document.getElementById('image-modal-body').removeChild(x);
+     		var element = document.createElement("img");
+     		element.setAttribute("src","../" + img_path);
+     		element.setAttribute("width",400);
+     		element.setAttribute("height",400);
+     		element.setAttribute("id","omkar");
+            document.getElementById('image-modal-body').appendChild(element); 
+            //document.getElementById('image-modal-hidden').value = pk;
         }
 </script>
 {% endblock %}
