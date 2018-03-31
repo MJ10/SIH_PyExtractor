@@ -18,8 +18,9 @@
 
 <!-- <button class ="btn btn-success"onclick="start()">Start</button> -->
 
+<div style="display: flex; flex-direction: column; margin-left:100px;">
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; margin-left:100px;">
+	<form class="form-horizontal" method="post" enctype="multipart/form-data" >
 	{% csrf_token %}
 	<div>
 		{% for field in form %}
@@ -29,15 +30,19 @@
 		<!-- </div> -->
 		{% endfor %}
 	</div>
-
-<div style="display: flex; margin-right: auto; margin-left: auto;">
-	<button class="btn btn-primary">{{ form_button }}</button>
-</div>
-</form>
-
-
+<div style="display: flex; flex-direction: row; justify-content:center; align-items:center;padding-top:5px">
+	<button class="btn btn-success" >{{ form_button }}</button>
 </div>
 
+</form>  {% if query %}
+<div style="display: flex; flex-direction: row; justify-content:center; align-items:center;padding-top:5px">
+	<button class="btn btn-success" onclick="locate()">Locate on Map</button>
+</div>
+	{% endif %}
+</div>
+
+<br><br>
+</div>
 
 <style>
 #map {
@@ -45,10 +50,17 @@
 	height: 500px;
 	background-color: #f8f4f0;
 }
+
+#map2 {
+	width: 700px;
+	height: 700px;
+	background-color: #f8f4f0;
+}
 </style>
 
 <script src="/static/js/map.js"></script>
 
+{% if query %}
 
 <table id="datatable" class="table table-hover table-striped table-bordered">
 	<thead>
@@ -60,6 +72,12 @@
 	</thead>
 	<tbody>
 		{% for image in query %}
+		<script>
+			add({img_name:'{{image.img_name}}',
+				latitude:'{{image.latitude}}',
+				longitude:'{{image.longitude}}',
+			});
+		</script> 	 	 
 		<tr>
 			<td>{{ image.img_name }}</td>
 			<td>{{ image.extracted_text }}</td>
@@ -78,6 +96,7 @@
 		{% endfor %}
 	</tbody>
 </table>
+{% endif %}
 {% include "image_modal.html" %}
 <script type="text/javascript">
 	$('#datatable').DataTable();
