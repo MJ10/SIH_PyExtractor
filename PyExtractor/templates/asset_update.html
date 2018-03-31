@@ -11,9 +11,9 @@
 {% endblock %}
 {% block body %}
         <p class="lead">Make changes to the asset data and click '{{ form_button }}' when finished.</p>
+        
         {% include "singleform.html" %}
-        <br>
-        <div class="col-sm-3">
+        <div class="col-sm-3" style="display: flex; flex-direction: row; margin-left: auto; margin-right: auto;">
             <a href="/assets/" class="btn btn-primary btn-block" role="button">Return to Assets list</a>
         </div>
 {% endblock %}

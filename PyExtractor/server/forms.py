@@ -164,7 +164,7 @@ class AssetForm(BasicForm):
     longitude = forms.CharField(required=True,max_length=50)
     setup_field(longitude,'Enter the longitude')
 
-    extracted_text = forms.CharField(required=True,max_length=4)
+    extracted_text = forms.CharField(required=False,max_length=500)
     setup_field(extracted_text, 'Enter the extracted text')
     department = forms.ChoiceField(choices=DEPARTMENTS)
     setup_field(department,'Enter the department')

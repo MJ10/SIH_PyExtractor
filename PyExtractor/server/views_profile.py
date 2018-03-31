@@ -79,6 +79,6 @@ def update_asset(request):
             template_data['alert_success'] = "The asset data has been updated!"
             template_data['form'] = form
     else:
-        form = AssetForm(a.get_populated_fields())
+        form = AssetForm(Asset.get_populated_fields())
     template_data['form']=form
     return render(request,'asset_update.html',template_data)
