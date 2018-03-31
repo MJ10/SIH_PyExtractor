@@ -24,6 +24,9 @@ urlpatterns = [
 
     url(r'^profile/$', views_profile.profile_view, name='profile'),
 
+    url(r'^assets/$',views_profile.assets_view, name='assets'),
+    url(r'^assets/delete/$', views_profile.delete_asset, name='assets/delete'),
+	url(r'^assets/update/$', views_profile.update_asset, name='assets/update'),
 
 	url(r'^upload/$', upload.upload, name='upload'),
 	url(r'^explore/$', explore.explore, name='explore')

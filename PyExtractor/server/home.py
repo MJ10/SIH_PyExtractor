@@ -119,5 +119,5 @@ def error_denied_view(request):
     # Get template data from session
     template_data = views.parse_session(request)
     # Proceed with rest of the view
-    return render(request,'error/denied.html',template_data)
+    return render(request,'denied.html',template_data)
 

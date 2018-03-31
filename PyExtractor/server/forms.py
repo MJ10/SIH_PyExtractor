@@ -153,3 +153,40 @@ class QueryForm(BasicForm):
         else:
             query.input_text_capacity = self.cleaned_data['input_text_capacity']
  
+
+class AssetForm(BasicForm):
+    img_name = forms.CharField(required=True,max_length=50)
+    setup_field(img_name,'Enter the Image name')   
+    img_path = forms.CharField(required=True,max_length=50)
+    setup_field(img_path,'Enter the image path')
+    latitude = forms.CharField(required=True,max_length=50)
+    setup_field(latitude,'Enter the latitude')
+    longitude = forms.CharField(required=True,max_length=50)
+    setup_field(longitude,'Enter the longitude')
+
+    extracted_text = forms.CharField(required=True,max_length=4)
+    setup_field(extracted_text, 'Enter the extracted text')
+    department = forms.ChoiceField(choices=DEPARTMENTS)
+    setup_field(department,'Enter the department')
+
+    input_text_type = forms.CharField(required=False, max_length=50)
+    setup_field(input_text_type,'Enter the type of asset')
+    input_text_capacity = forms.CharField(required=False, max_length=50)
+    setup_field(input_text_capacity,'Enter the capacity')
+
+    def assign(self, query):
+        query.img_name = self.cleaned_data['img_name']
+        query.img_path = self.cleaned_data['img_path']
+        query.latitude = self.cleaned_data['latitude']
+        query.longitude = self.cleaned_data['longitude']
+        query.extracted_text = self.cleaned_data['extracted_text']
+        query.department = self.cleaned_data['department']
+        if self.cleaned_data['input_text_type'] == None:
+            query.input_text_type = None
+        else:
+            query.input_text_type = self.cleaned_data['input_text_type']
+        if self.cleaned_data['input_text_capacity'] == None:
+            query.input_text_capacity = None
+        else:
+            query.input_text_capacity = self.cleaned_data['input_text_capacity']
+ 

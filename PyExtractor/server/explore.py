@@ -27,7 +27,7 @@ def parse_session(request, template_data=None):
 
 
 def explore(request):
-	authentication_result = views.authentication_check(request, [Account.ACCOUNT_ADMIN])
+	authentication_result = views.authentication_check(request)
 	if authentication_result is not None:
 		return authentication_result
 	template_data = parse_session(

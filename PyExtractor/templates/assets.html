@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}Manage assets{% endblock %}
+{% block sidebar_assets %}active{% endblock %}
+{% block body_header %}
+    My Assets
+    <br>
+
+{% endblock %}
+{% block body %}
+<table id="datatable" class="table table-hover table-striped table-bordered">
+	<thead>
+		<th>Name</th>
+		<th>Extracted Text</th>
+		<th>Latitude</th>
+		<th>Longitude</th>
+		<th data-defaultsort='disabled'>Options</th>
+	</thead>
+	<tbody>
+		{% for image in assets %}
+		<tr>
+			<td>{{ image.img_name }}</td>
+			<td>{{ image.extracted_text }}</td>
+			<td>{{ image.latitude }}</td>
+			<td>{{ image.longitude }}</td>
+			<td>
+				<a class="btn btn-warning btn-sm" href="/assets/update/?pk={{ image.pk }}" role="button">Update</a>
+				<script type="text/javascript">
+                    function proxy{{ image.pk }}() {
+                        configureModal(
+                                {{ image.pk }},
+                                '{{ image.img_name }}',
+                            )
+                    };
+                </script>
+				<button onclick="proxy{{ image.pk }}()" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-modal">Delete</button>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% include "asset_modal.html" %}
+<script type="text/javascript">
+	$('#datatable').DataTable();
+
+	function configureModal(pk, img_name) {
+            document.getElementById('confirm-modal-body').innerHTML = 'Are you sure you want to delete the image '.concat(img_name ,'?');
+            document.getElementById('confirm-modal-hidden').value = pk;
+        }
+</script>
+{% endblock %}

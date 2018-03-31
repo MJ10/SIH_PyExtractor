@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}
+    Update Appointment
+{% endblock %}
+{% block sidebar_assets %}
+    active
+{% endblock %}
+{% block body_header %}
+    Update Asset Information
+{% endblock %}
+{% block body %}
+        <p class="lead">Make changes to the asset data and click '{{ form_button }}' when finished.</p>
+        {% include "singleform.html" %}
+        <br>
+        <div class="col-sm-3">
+            <a href="/assets/" class="btn btn-primary btn-block" role="button">Return to Assets list</a>
+        </div>
+{% endblock %}

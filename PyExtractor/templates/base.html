@@ -74,6 +74,7 @@
                         {% if user.account.role >= 0 %}
                             <li class="{% block sidebar_explore %}{% endblock %}"><a href="/explore/">Explore<i class="pull-right fa fa-binoculars"></i></a></li>
                             <li class="{% block sidebar_upload %}{% endblock %}"><a href="/upload/">Upload<i class="pull-right fa fa-upload"></i></a></li>
+                            <li class="{% block sidebar_assets %}{% endblock %}"><a href="/assets/">My Assets<i class="pull-right fa fa-image"></i></a></li>
                         {% endif %}
                         {% if user.account.role == 60 %}
                             <li class="{% block sidebar_admin_users %}{% endblock %}"><a href="/admin/users">Manage Users<i class="pull-right fa fa-user"></i></a></li>

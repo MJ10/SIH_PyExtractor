@@ -16,6 +16,7 @@ CHOICE = (
 # 	department = models.CharField(max_length=100)
 
 class Account(models.Model):
+	ACCOUNT_UNKNOWN = 0
 	ACCOUNT_ISRO = 10
 	ACCOUNT_AGRI = 20
 	ACCOUNT_DEF = 30
@@ -23,6 +24,7 @@ class Account(models.Model):
 	ACCOUNT_IT = 50
 	ACCOUNT_ADMIN = 60
 	ACCOUNT_TYPES = (
+		(ACCOUNT_UNKNOWN, "Unknown"),
 		(ACCOUNT_ISRO, "ISRO"),
 		(ACCOUNT_AGRI, "Agriculture"),
 		(ACCOUNT_DEF, "Defence"),
@@ -92,3 +94,18 @@ class asset(models.Model):
 	
 	def __str__(self):
 		return '{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}'.format(self.img_name,self.img_path,self.extracted_text,self.latitude,self.longitude,self.department,self.time,self.kind,self.capacity, self.owner)
+
+	def get_populated_fields(self):
+		fields = {
+			'img_name':self.img_name,
+			'img_path':self.img_path,
+			'extracted_text':self.extracted_text,
+			'latitude':self.latitude,
+			'longitude':self.longitude,
+			'department':self.department,
+			'time':self.time,
+			'kind':self.kind,
+			'capacity':self.capacity,
+			'owner':self.owner,
+		}
+		return fields
