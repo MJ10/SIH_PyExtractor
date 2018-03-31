@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^admin/createuser/$', views_admin.createuser_view, name='admin/createuser'),
 
     url(r'^profile/$', views_profile.profile_view, name='profile'),
-
+    url(r'^public_assets/$', views_profile.public_assets, name='public_assets'),
     url(r'^assets/$',views_profile.assets_view, name='assets'),
     url(r'^assets/delete/$', views_profile.delete_asset, name='assets/delete'),
 	url(r'^assets/update/$', views_profile.update_asset, name='assets/update'),

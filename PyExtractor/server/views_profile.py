@@ -26,6 +26,12 @@ def assets_view(request):
 	return render(request, 'assets.html', template_data)
 
 
+def public_assets(request):
+    template_data = {}
+    template_data['assets'] = asset.objects.all()
+    return render(request, 'public_assets.html', template_data)
+
+
 def delete_asset(request):
     # Authentication check
     authentication_result = views.authentication_check(request)
