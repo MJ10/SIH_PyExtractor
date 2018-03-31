@@ -187,7 +187,7 @@ def ctpn(sess, net, image_name):
     draw_boxes(img, image_name, boxes, scale)
 
 def extract_text(input_file):
-    return pytesseract.image_to_string(Image.open(input_file), lang='hin+tam+tel')
+    return pytesseract.image_to_string(Image.open(input_file), lang='hin')
 
 def segment_images(image_folder):
     global curr_s
