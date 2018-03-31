@@ -81,8 +81,8 @@
 		<tr>
 			<td>{{ image.img_name }}</td>
 			<td>{{ image.extracted_text }}</td>
-			<td>{{ image.latitude }}</td>
-			<td>{{ image.longitude }}</td>
+			<td>{{ image.latitude |floatformat:4}}</td>
+			<td>{{ image.longitude |floatformat:4}}</td>
 			<script type="text/javascript">
                 function proxy1{{ image.pk }}() {
                     configureModal1(
