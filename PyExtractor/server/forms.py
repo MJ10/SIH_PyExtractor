@@ -144,6 +144,12 @@ class QueryForm(BasicForm):
         query.longitude = self.cleaned_data['longitude']
         query.distance = self.cleaned_data['distance']
         query.year = self.cleaned_data['year']
-        query.input_text_type = self.cleaned_data['input_text_type']
-        query.input_text_capacity = self.cleaned_data['input_text_capacity']
+        if self.cleaned_data['input_text_type'] == None:
+            query.input_text_type = None
+        else:
+            query.input_text_type = self.cleaned_data['input_text_type']
+        if self.cleaned_data['input_text_capacity'] == None:
+            query.input_text_capacity = None
+        else:
+            query.input_text_capacity = self.cleaned_data['input_text_capacity']
  

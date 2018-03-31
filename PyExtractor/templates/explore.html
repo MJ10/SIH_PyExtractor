@@ -35,6 +35,7 @@
 </div>
 </form>
 
+
 </div>
 
 
@@ -49,4 +50,25 @@
 <script src="/static/js/map.js"></script>
 
 
+<table id="datatable" class="table table-hover table-striped table-bordered">
+	<thead>
+		<th>Name</th>
+		<th>Extracted Text</th>
+		<th>Latitude</th>
+		<th>Longitude</th>
+	</thead>
+	<tbody>
+		{% for image in query %}
+		<tr>
+			<td>{{ image.img_name }}</td>
+			<td>{{ image.extracted_text }}</td>
+			<td>{{ image.latitude }}</td>
+			<td>{{ image.longitude }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<script type="text/javascript">
+	$('#datatable').DataTable()
+</script>
 {% endblock %}

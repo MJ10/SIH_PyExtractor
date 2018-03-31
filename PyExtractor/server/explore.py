@@ -4,6 +4,7 @@ from server.models import asset, Account
 from server.forms import QueryForm
 import math
 from server import views
+from django.db.models import Q
 
 radius_of_earth = 6371
 
@@ -36,15 +37,16 @@ def explore(request):
 	if request.method == 'POST':
 		form = QueryForm(request.POST)
 		if form.is_valid():
-			print(form.cleaned_data['department'])
-			print(form.cleaned_data['latitude'])
-			print(form.cleaned_data['longitude'])
-			print(form.cleaned_data['distance'])
-			print(form.cleaned_data['year'])
-			print(form.cleaned_data['input_type_text'])
-			print(form.cleaned_data['input_type_capacity'])
 			# Query to find images in that range
-			find_images(form.cleaned_data['department'],form.cleaned_data['latitude'],form.cleaned_data['longitude'], form.cleaned_data['distance'], form.cleaned_data['year'], form.cleaned_data['input_text_type'], form.cleaned_data['input_text_capacity'])
+			desired_id = find_images(form.cleaned_data['department'],form.cleaned_data['latitude'],form.cleaned_data['longitude'], form.cleaned_data['distance'], form.cleaned_data['year'], form.cleaned_data['input_text_type'], form.cleaned_data['input_text_capacity'])
+			print(desired_id)
+			# for id_i in desired_id:
+			# #asset.objects.filter(id=id_i))
+			# 	template_data['query']=asset.objects.filter(
+			# 		Q(id=id_i)
+			# 	)
+			template_data['query']=asset.objects.filter(pk__in=desired_id)
+			print(template_data['query'])
 	else:
 		form = QueryForm()
 	template_data['form'] = form
@@ -53,27 +55,48 @@ def explore(request):
 
 # Function to find images having the distance which user wants
 def find_images(department,latitude,longitude, distance, year, input_text_type, input_text_capacity):
-	print(department,latitude,longitude)
+	desired_id = []
+	print(department,latitude,longitude,distance,year,input_text_type,input_text_capacity)
 	phi1 = toRadians(latitude)
 	lambda1 = toRadians(longitude)
 	print(phi1,lambda1)
 
 	for asseti in asset.objects.all():
-		#print(asseti.img_name,asseti.img_path,asseti.extracted_text,asseti.latitude,asseti.longitude,asseti.department,asseti.time)			
 		phi2 = toRadians(asseti.latitude)
 		lambda2 = toRadians(asseti.longitude)
-		got_distance = getDistance(phi1,phi2,lambda1,lambda2,distance)
-		if int(choice) == 0:
-			if got_distance < int(distance) and asseti.department == department and asseti.kind == str(input_text):
-				print(asseti.img_name)
+		# If any one is NULL
+		if(phi2 == -1 or lambda2 == -1):
+			print("Do nothing")
 		else:
-			if got_distance < int(distance) and asseti.department == department and asseti.capacity == int(input_text):
-				print(asseti.img_name)
+			got_distance = getDistance(phi1,phi2,lambda1,lambda2,distance)
+			print(got_distance)
+			if input_text_capacity == '' and input_text_type == '':
+				if got_distance < float(distance) and int(asseti.department) == int(department):
+					print(asseti.img_name)
+					desired_id.append(asseti.id)
+			elif input_text_capacity == '':
+				if got_distance < float(distance) and int(asseti.department) == int(department) and asseti.kind == str(input_text_type):
+					print(asseti.img_name)
+					desired_id.append(asseti.id)
+			elif input_text_type == '':
+				if got_distance < float(distance) and int(asseti.department) == int(department) and int(asseti.capacity) <= int(input_text_capacity):
+					print(asseti.img_name)
+					desired_id.append(asseti.id)
+			else:
+				if got_distance < float(distance) and int(asseti.department) == int(department) and int(asseti.capacity) <= int(input_text_capacity) and asseti.kind == str(input_text_type):
+					print(asseti.img_name)
+					desired_id.append(asseti.id)
+
+	return desired_id
+
 
 
 # Convert the latitude and longitude to Radians
 def toRadians(input):
-	return 0.0174533*float(input)
+	if input == None:
+		return -1
+	else:
+		return 0.0174533*float(input)
 
 # Get distance between the two points
 def getDistance(phi1,phi2,lambda1,lambda2,radius):

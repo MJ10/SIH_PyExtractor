@@ -1,11 +1,11 @@
 
-var map;
+var map, marker;
 window.addEventListener('load', function () {
     
     function initialize(){
 
         map = L.map('map',{ 
-            maxBounds:[ [-90, -160], [90, 200] ],
+            maxBounds:[ [5, 60], [40,100] ],
             minZoom: 1
             });
         var gl = L.mapboxGL({
@@ -17,7 +17,8 @@ window.addEventListener('load', function () {
         }).addTo(map);
         map = map.fitWorld();    
         map = map.locate({setView: true, maxZoom: 5}); 
-    
+        marker = L.marker([13.0108, 74.7943]).addTo(map);
+        
     }
     initialize();
     
@@ -36,8 +37,7 @@ window.addEventListener('load', function () {
         onLocationfound(e);
     });
     
-    var marker = L.marker([13.0108, 74.7943]).addTo(map);
-    
+    // var marker = L.marker([13.0108, 74.7943]).addTo(map);
     onLocationfound = function(e){
         marker.setLatLng(e.latlng);
         map.setView(marker.getLatLng(),map.getZoom(), { animation: true });
@@ -48,7 +48,7 @@ window.addEventListener('load', function () {
     };
     
     map.on('locationfound', onLocationfound);    
-    marker.bindPopup("Location set to NITK").openPopup();  
+    marker.bindPopup("Your Location.").openPopup();  
 
 }, false);
 

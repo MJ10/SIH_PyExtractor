@@ -7,7 +7,7 @@ $(document).ready(function() {
     $('.carousel.carousel-slider').height($(document).height());  
 
     setTimeout(function() {
-        autoplay();tmap tiles
+        autoplay();
     }, 6000);   
 
 }); 
