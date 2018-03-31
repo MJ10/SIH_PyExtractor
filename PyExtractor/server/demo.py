@@ -9,12 +9,12 @@ import subprocess
 from server.preprocess import Preprocessing
 from PIL import Image
 sys.path.append(os.path.join(os.getcwd(), 'server', 'seg_model'))
-from lib.networks.factory import get_network
-from lib.fast_rcnn.config import cfg,cfg_from_file
-from lib.fast_rcnn.test import test_ctpn
-from lib.utils.timer import Timer
-from lib.text_connector.detectors import TextDetector
-from lib.text_connector.text_connect_cfg import Config as TextLineCfg
+from .seg_model.lib.networks.factory import get_network
+from .seg_model.lib.fast_rcnn.config import cfg,cfg_from_file
+from .seg_model.lib.fast_rcnn.test import test_ctpn
+from .seg_model.lib.utils.timer import Timer
+from .seg_model.lib.text_connector.detectors import TextDetector
+from .seg_model.lib.text_connector.text_connect_cfg import Config as TextLineCfg
 
 
 cfg_from_file('server/seg_model/ctpn/text.yml')
