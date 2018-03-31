@@ -70,22 +70,40 @@ def find_images(department,latitude,longitude, distance, year, input_text_type, 
 		else:
 			got_distance = getDistance(phi1,phi2,lambda1,lambda2,distance)
 			print(got_distance)
-			if input_text_capacity == '' and input_text_type == '':
-				if got_distance < float(distance) and int(asseti.department) == int(department):
-					print(asseti.img_name)
-					desired_id.append(asseti.id)
-			elif input_text_capacity == '':
-				if got_distance < float(distance) and int(asseti.department) == int(department) and asseti.kind == str(input_text_type):
-					print(asseti.img_name)
-					desired_id.append(asseti.id)
-			elif input_text_type == '':
-				if got_distance < float(distance) and int(asseti.department) == int(department) and int(asseti.capacity) <= int(input_text_capacity):
-					print(asseti.img_name)
+			if int(department)==60:
+				if input_text_capacity == '' and input_text_type == '':
+					if got_distance < float(distance) and int(asseti.department) == int(department):
+						print(asseti.img_name)
+						desired_id.append(asseti.id)
+				elif input_text_capacity == '':
+					if got_distance < float(distance) and asseti.kind == str(input_text_type):
+						print(asseti.img_name)
+						desired_id.append(asseti.id)
+				elif input_text_type == '':
+					if got_distance < float(distance) and int(asseti.capacity) <= int(input_text_capacity):
+						print(asseti.img_name)
+						desired_id.append(asseti.id)
+				else:
+					if got_distance < float(distance) and int(asseti.capacity) <= int(input_text_capacity) and asseti.kind == str(input_text_type):
+						print(asseti.img_name)
 					desired_id.append(asseti.id)
 			else:
-				if got_distance < float(distance) and int(asseti.department) == int(department) and int(asseti.capacity) <= int(input_text_capacity) and asseti.kind == str(input_text_type):
-					print(asseti.img_name)
-					desired_id.append(asseti.id)
+				if input_text_capacity == '' and input_text_type == '':
+					if got_distance < float(distance) and int(asseti.department) == int(department):
+						print(asseti.img_name)
+						desired_id.append(asseti.id)
+				elif input_text_capacity == '':
+					if got_distance < float(distance) and int(asseti.department) == int(department) and asseti.kind == str(input_text_type):
+						print(asseti.img_name)
+						desired_id.append(asseti.id)
+				elif input_text_type == '':
+					if got_distance < float(distance) and int(asseti.department) == int(department) and int(asseti.capacity) <= int(input_text_capacity):
+						print(asseti.img_name)
+						desired_id.append(asseti.id)
+				else:
+					if got_distance < float(distance) and int(asseti.department) == int(department) and int(asseti.capacity) <= int(input_text_capacity) and asseti.kind == str(input_text_type):
+						print(asseti.img_name)
+						desired_id.append(asseti.id)
 
 	return desired_id
 

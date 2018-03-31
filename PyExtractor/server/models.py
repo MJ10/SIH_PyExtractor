@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 DEPARTMENTS = (
-	(10,'Department of ISRO'), (20,'Department of Agriculture'), (30,'Department of Defence'),
-	(40,'Department of Telecommunications'), (50,'Department of IT')
+	(10,'Department of Space'), (20,'Department of Agriculture'), (30,'Department of Defence'),
+	(40,'Department of Telecommunications'), (50,'Department of IT'), (60,'All')
 	)
 
 CHOICE = (
@@ -74,7 +74,7 @@ class asset(models.Model):
 	latitude = models.CharField(null=True,max_length=20)
 	longitude = models.CharField(null=True,max_length=20)
 	department = models.CharField(max_length=50)
-	time = models.DateTimeField(auto_now_add=True)
+	time = models.DateTimeField(auto_now_add=False)
 
 	kind = models.CharField(max_length=50,blank=True,default=None, null=True)
 

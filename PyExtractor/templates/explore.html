@@ -4,17 +4,28 @@
 {% block sidebar_explore %}active{% endblock %}
 {% block body_header %}
     Explore
-    <br>
+<br>
 
 {% endblock %}
 {% block body %}
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column;">{% csrf_token %}
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.3.1/ol.css"> -->
+<link rel="stylesheet" href="/static/css/ol.css">
+<div style="display:flex; flex-direction:row">
+<div id="map"></div>
+<br>
+
+<!-- <button class ="btn btn-success"onclick="start()">Start</button> -->
+
+
+<form class="form-horizontal" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; margin-left:100px;">
+	{% csrf_token %}
 	<div>
 		{% for field in form %}
 		<!-- <div class="form-group"> -->
-		    <label class="control-label col-sm-2" for="">{{ field.label }}</label>
-		    <div class="col-sm-4">{{ field }}</div>
+		    <label class="control-label " for="">{{ field.label }}</label>
+		    <div class="">{{ field }}</div>
 		<!-- </div> -->
 		{% endfor %}
 	</div>
@@ -23,6 +34,21 @@
 	<button class="btn btn-primary">{{ form_button }}</button>
 </div>
 </form>
+
+
+</div>
+
+
+<style>
+#map {
+	width: 500px;
+	height: 500px;
+	background-color: #f8f4f0;
+}
+</style>
+
+<script src="/static/js/map.js"></script>
+
 
 <table id="datatable" class="table table-hover table-striped table-bordered">
 	<thead>
