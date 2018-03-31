@@ -47,6 +47,9 @@ def resize_im(im, scale, max_scale=None):
 def draw_boxes(img,image_name,boxes,scale):
     global curr_s
     count = 0
+
+    boxes = sort(boxes)
+
     for box in boxes:
         if box[8]>=0.9:
             color = (0,255,0)
@@ -71,21 +74,22 @@ def draw_boxes(img,image_name,boxes,scale):
         cropped_im = im.crop(crop_rectangle)
         # cropped_im = cv2.cvtColor(cropped_im, cv2.COLOR_BGR2GRAY)
         cropped_im.save('server/res/result' + str(count) + '.png', dpi=(600,600))
-        image = cv2.imread('server/res/result' + str(count) + '.png')
-        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        cv2.imwrite('server/res/result' + str(count) + '.png', gray_image)
-        # subprocess.run(['python', 'server/process.py', 'server/res/result' + str(count) + '.png',
-        #                 'server/res/result' + str(count) + '.png'])
+        # image = cv2.imread('server/res/result' + str(count) + '.png')
+        # gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # cv2.imwrite('server/res/result' + str(count) + '.png', gray_image)
         subprocess.run(['server/scripts/textcleaner', 'server/res/result' + str(count) + '.png', 
                         'server/res/result' + str(count) + '.png'])
         # clean_blobs('server/res/result' + str(count) + '.png')
-        pr.preprocess('server/res/result' + str(count) + '.png', 'server/res/result' + str(count) + '.png')
+        # pr.preprocess('server/res/result' + str(count) + '.png', 'server/res/result' + str(count) + '.png')
+        subprocess.run(['python', 'server/process.py', 'server/res/result' + str(count) + '.png',
+                        'server/res/result' + str(count) + '.png'])
         
         # a = cv2.imread('res/result' + str(count) + '.png')
         # preprocess.img_x = len(a)
         # preprocess.img_y = len(a[0])
         # preprocess.preprocess('res/result' + str(count) + '.png', 'res/result' + str(count) + '.png')
         s = extract_text('server/res/result' + str(count) + '.png')
+        curr_s += ' '
         curr_s += s
         # print(curr_s)
         # l.append(s)
@@ -186,7 +190,7 @@ def ctpn(sess, net, image_name):
     draw_boxes(img, image_name, boxes, scale)
 
 def extract_text(input_file):
-    return pytesseract.image_to_string(Image.open(input_file), lang='eng+hin+kan+tel')
+    return pytesseract.image_to_string(Image.open(input_file), lang='eng')
 
 def segment_images(image_folder):
     global curr_s
@@ -203,3 +207,23 @@ def segment_images(image_folder):
         l.append(curr_s)
     # print(len(l))
     return l
+
+
+def sort(boxes):
+    for i in range(len(boxes)):
+        for j in range(len(boxes)-i-1):
+            box1 = boxes[j]
+            print(box1)
+            box2 = boxes[j+1]
+            data1 = np.array([[(int(box1[0]),int(box1[1])),(int(box1[2]),int(box1[3])),(int(box1[6]),int(box1[7])),(int(box1[4]),int(box1[5]))]], dtype=np.int32)
+            data2 = np.array([[(int(box2[0]),int(box2[1])),(int(box2[2]),int(box2[3])),(int(box2[6]),int(box2[7])),(int(box2[4]),int(box2[5]))]], dtype=np.int32)
+
+            if int(data1[1])>int(data2[1]):
+                temp = boxes[j]
+                boxes[j] = boxes[j+1]
+                boxes[j+1] = temp
+            elif int(data1[1])==int(data2[1]) and int(data1[0])> int(data2[0]):
+                temp = boxes[j]
+                boxes[j] = boxes[j+1]
+                boxes[j+1] = temp
+    return boxes
