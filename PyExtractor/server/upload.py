@@ -19,7 +19,7 @@ DATE_FORMAT = '%Y:%m:%d %H:%M:%S'
 
 # GET request to load template
 def upload(request):
-    authentication_result = views.authentication_check(request, [Account.ACCOUNT_ADMIN])
+    authentication_result = views.authentication_check(request)
     if authentication_result is not None:
         return authentication_result
     template_data = parse_session(
