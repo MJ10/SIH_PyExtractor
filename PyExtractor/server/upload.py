@@ -141,6 +141,8 @@ def extract_data(zip_f, path, owner, role):
         # TODO : Change for other file types
         if(file.find('.jpg')):
             gps = getData(os.path.join(dest_path,file))
+            if not gps['dateTaken']:
+                continue
             date = datetime.strptime(str(gps['dateTaken']), DATE_FORMAT)
             print(date.strftime('%Y-%m-%d %H:%M:%S'))
             #print(gps)

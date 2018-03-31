@@ -78,7 +78,7 @@ def draw_boxes(img,image_name,boxes,scale):
         #                 'server/res/result' + str(count) + '.png'])
         subprocess.run(['server/scripts/textcleaner', 'server/res/result' + str(count) + '.png', 
                         'server/res/result' + str(count) + '.png'])
-        clean_blobs('server/res/result' + str(count) + '.png')
+        # clean_blobs('server/res/result' + str(count) + '.png')
         pr.preprocess('server/res/result' + str(count) + '.png', 'server/res/result' + str(count) + '.png')
         
         # a = cv2.imread('res/result' + str(count) + '.png')
@@ -87,16 +87,16 @@ def draw_boxes(img,image_name,boxes,scale):
         # preprocess.preprocess('res/result' + str(count) + '.png', 'res/result' + str(count) + '.png')
         s = extract_text('server/res/result' + str(count) + '.png')
         curr_s += s
-        print(curr_s)
+        # print(curr_s)
         # l.append(s)
-        folder = 'server/res/'
-        for the_file in os.listdir(folder):
-            file_path = os.path.join(folder, the_file)
-            try:
-                if os.path.isfile(file_path):
-                    os.unlink(file_path)
-            except Exception as e:
-                print(e)
+        # folder = 'server/res/'
+        # for the_file in os.listdir(folder):
+        #     file_path = os.path.join(folder, the_file)
+        #     try:
+        #         if os.path.isfile(file_path):
+        #             os.unlink(file_path)
+        #     except Exception as e:
+        #         print(e)
 
 # def draw_boxes(img,image_name,boxes,scale):
 #     for box in boxes:
@@ -146,8 +146,6 @@ def clean_blobs(image_path):
         detector = cv2.SimpleBlobDetector(params)
     else : 
         detector = cv2.SimpleBlobDetector_create(params)
-
-
         
     # Read image
     im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
@@ -183,11 +181,12 @@ def ctpn(sess, net, image_name):
 
     textdetector = TextDetector()
     boxes = textdetector.detect(boxes, scores[:, np.newaxis], img.shape[:2])
+    # print(scores)
     # print(boxes)
     draw_boxes(img, image_name, boxes, scale)
 
 def extract_text(input_file):
-    return pytesseract.image_to_string(Image.open(input_file), lang='hin')
+    return pytesseract.image_to_string(Image.open(input_file), lang='eng+hin+kan+tel')
 
 def segment_images(image_folder):
     global curr_s
@@ -200,6 +199,7 @@ def segment_images(image_folder):
         curr_s = ''
         ctpn(sess, net, im_name)
         # print(curr_s)
+        print(curr_s)
         l.append(curr_s)
     # print(len(l))
     return l
