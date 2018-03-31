@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import _thread
 import os.path
+from datetime import datetime
 
 from utilities.zip_extract import zip_extract
 from utilities.location import getData
@@ -12,6 +13,8 @@ from server.models import DEPARTMENTS, Account, asset
 from server.forms import UploadForm
 from server.views import parse_session
 from server import views
+
+DATE_FORMAT = '%Y:%m:%d %H:%M:%S'
 
 
 # GET request to load template
@@ -138,6 +141,8 @@ def extract_data(zip_f, path, owner, role):
         # TODO : Change for other file types
         if(file.find('.jpg')):
             gps = getData(os.path.join(dest_path,file))
+            date = datetime.strptime(str(gps['dateTaken']), DATE_FORMAT)
+            print(date.strftime('%Y-%m-%d %H:%M:%S'))
             #print(gps)
             metadata = []
             # print(type(gps))
@@ -147,7 +152,7 @@ def extract_data(zip_f, path, owner, role):
                     longitude= gps['longitude'],
                     img_name= file, 
                     img_path= os.path.join(dest_path,file),
-                    time= gps['dateTaken'],
+                    time= date.strftime('%Y-%m-%d %H:%M:%S'),
                     owner= owner,
                     department = role,
                     extracted_text = extracted_text[index]
@@ -161,7 +166,7 @@ def extract_data(zip_f, path, owner, role):
                     longitude= None,
                     img_name= file, 
                     img_path= os.path.join(dest_path,file),
-                    time = gps['dateTaken'],
+                    time = str(date.strftime('%Y-%m-%d %H:%M:%S.000000')),
                     owner= owner,
                     department = role,
                     extracted_text = extracted_text[index]

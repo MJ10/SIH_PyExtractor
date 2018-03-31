@@ -78,14 +78,17 @@ def draw_boxes(img,image_name,boxes,scale):
         #                 'server/res/result' + str(count) + '.png'])
         subprocess.run(['server/scripts/textcleaner', 'server/res/result' + str(count) + '.png', 
                         'server/res/result' + str(count) + '.png'])
+        clean_blobs('server/res/result' + str(count) + '.png')
         pr.preprocess('server/res/result' + str(count) + '.png', 'server/res/result' + str(count) + '.png')
+        
         # a = cv2.imread('res/result' + str(count) + '.png')
         # preprocess.img_x = len(a)
         # preprocess.img_y = len(a[0])
         # preprocess.preprocess('res/result' + str(count) + '.png', 'res/result' + str(count) + '.png')
         s = extract_text('server/res/result' + str(count) + '.png')
-        print(s)
-        l.append(s)
+        curr_s += s
+        print(curr_s)
+        # l.append(s)
         folder = 'server/res/'
         for the_file in os.listdir(folder):
             file_path = os.path.join(folder, the_file)
@@ -110,6 +113,69 @@ def draw_boxes(img,image_name,boxes,scale):
 #     img=cv2.resize(img, None, None, fx=1.0/scale, fy=1.0/scale, interpolation=cv2.INTER_LINEAR)
 #     cv2.imwrite(os.path.join("data/results", base_name), img)
 
+def clean_blobs(image_path):
+    # Setup SimpleBlobDetector parameters.
+    params = cv2.SimpleBlobDetector_Params()
+    
+    filterByColor = 1
+    blobColor = 0
+        
+    # Change thresholds
+    params.minThreshold = 20;
+    params.maxThreshold = 200;
+    
+    # Filter by Area.
+    params.filterByArea = True
+    params.minArea = 0
+    
+    # Filter by Circularity
+    params.filterByCircularity = True
+    params.minCircularity = 0.4
+    
+    # Filter by Convexity
+    params.filterByConvexity = True
+    params.minConvexity = 0.1
+    
+    # Filter by Inertia
+    params.filterByInertia = False
+    params.minInertiaRatio = 0
+    
+    # Create a detector with the parameters
+    ver = (cv2.__version__).split('.')
+    if int(ver[0]) < 3 :
+        detector = cv2.SimpleBlobDetector(params)
+    else : 
+        detector = cv2.SimpleBlobDetector_create(params)
+
+
+        
+    # Read image
+    im = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    
+    # Set up the detector with default parameters.
+    #detector = cv2.SimpleBlobDetector_create()
+
+    # Detect blobs.
+    keypoints = detector.detect(im)
+
+    # Draw detected blobs as red circles.
+    # cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS ensures the size of the circle corresponds to the size of blob
+    im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (255,255,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
+    # if len(keypoints) == 0:
+    #     break
+
+    x = keypoints[0].pt[0] #i is the index of the blob you want to get the position
+    y = keypoints[0].pt[1]
+    dia = keypoints[0].size
+    print(x, y, dia)
+
+    for kp in keypoints:
+        cv2.circle(im,(round(kp.pt[0]),round(kp.pt[1])), round(kp.size/2), (255,255,255), cv2.FILLED, 0)
+
+    cv2.imwrite(image_path, im)
+
+
 def ctpn(sess, net, image_name):
     img = cv2.imread(image_name)
     img, scale = resize_im(img, scale=TextLineCfg.SCALE, max_scale=TextLineCfg.MAX_SCALE)
@@ -133,6 +199,7 @@ def segment_images(image_folder):
     for im_name in im_names:
         curr_s = ''
         ctpn(sess, net, im_name)
-        print(curr_s)
+        # print(curr_s)
         l.append(curr_s)
+    # print(len(l))
     return l
