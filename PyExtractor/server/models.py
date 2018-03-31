@@ -72,7 +72,7 @@ class asset(models.Model):
 	latitude = models.CharField(null=True,max_length=20)
 	longitude = models.CharField(null=True,max_length=20)
 	department = models.CharField(max_length=50)
-	time = models.DateTimeField(auto_now_add=True)
+	time = models.DateTimeField(auto_now_add=False)
 
 	kind = models.CharField(max_length=50,blank=True,default=None, null=True)
 
