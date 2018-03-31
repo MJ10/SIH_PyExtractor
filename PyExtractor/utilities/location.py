@@ -1,4 +1,5 @@
 import exifread as ef
+from PIL import Image
 # import os
 
 # barrowed from 
@@ -21,14 +22,16 @@ def getData(filepath):
     '''
     returns gps data if present other wise returns empty dictionary
     '''
-    
+    # print(filepath)
+    # dateTaken = Image.open(filepath)._getexif()[36867]
     with open(filepath, 'rb') as f:
         tags = ef.process_file(f)
         latitude = tags.get('GPS GPSLatitude')
         latitude_ref = tags.get('GPS GPSLatitudeRef')
         longitude = tags.get('GPS GPSLongitude')
         longitude_ref = tags.get('GPS GPSLongitudeRef')
-        dateTaken = tags.get("EXIF DateTimeOriginal")
+        dateTaken = tags.get("Image DateTime")
+        print(dateTaken)
         if latitude:
             lat_value = _convert_to_degress(latitude)
             if latitude_ref.values != 'N':

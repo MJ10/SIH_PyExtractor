@@ -1,7 +1,7 @@
 from __future__ import print_function
 import tensorflow as tf
 import numpy as np
-import os, sys, cv2
+import os, sys, cv2, shutil
 import glob
 import shutil
 import pytesseract
@@ -69,18 +69,31 @@ def draw_boxes(img,image_name,boxes,scale):
         crop_rectangle = (min([int(box[0]),int(box[4])]), min([int(box[1]),int(box[3])]),
                             max([int(box[2]),int(box[6])]), max([int(box[5]),int(box[7])]))
         cropped_im = im.crop(crop_rectangle)
+        # cropped_im = cv2.cvtColor(cropped_im, cv2.COLOR_BGR2GRAY)
         cropped_im.save('server/res/result' + str(count) + '.png', dpi=(600,600))
+        image = cv2.imread('server/res/result' + str(count) + '.png')
+        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        cv2.imwrite('server/res/result' + str(count) + '.png', gray_image)
         # subprocess.run(['python', 'server/process.py', 'server/res/result' + str(count) + '.png',
         #                 'server/res/result' + str(count) + '.png'])
-        
+        subprocess.run(['server/scripts/textcleaner', 'server/res/result' + str(count) + '.png', 
+                        'server/res/result' + str(count) + '.png'])
         pr.preprocess('server/res/result' + str(count) + '.png', 'server/res/result' + str(count) + '.png')
         # a = cv2.imread('res/result' + str(count) + '.png')
         # preprocess.img_x = len(a)
         # preprocess.img_y = len(a[0])
         # preprocess.preprocess('res/result' + str(count) + '.png', 'res/result' + str(count) + '.png')
         s = extract_text('server/res/result' + str(count) + '.png')
-        curr_s += s
-        # l.append(s)
+        print(s)
+        l.append(s)
+        folder = 'server/res/'
+        for the_file in os.listdir(folder):
+            file_path = os.path.join(folder, the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+            except Exception as e:
+                print(e)
 
 # def draw_boxes(img,image_name,boxes,scale):
 #     for box in boxes:
