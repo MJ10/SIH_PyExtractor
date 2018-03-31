@@ -87,6 +87,8 @@ class asset(models.Model):
 	# 	self.longitude = longitude
 	# 	self.department = department
 	# 	self.time = time
+#	def __str__(self):
+#		return self.img_name,self.img_path,self.extracted_text,self.latitude,self.longitude,self.department,self.time,self.kind,self.capacity, self.owner
+	
 	def __str__(self):
-		return self.img_name,self.img_path,self.extracted_text,self.latitude,self.longitude,self.department,self.time,self.kind,self.capacity, self.owner
-		
+		return '{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}'.format(self.img_name,self.img_path,self.extracted_text,self.latitude,self.longitude,self.department,self.time,self.kind,self.capacity, self.owner)
