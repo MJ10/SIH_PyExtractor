@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	particlesJS.load('particles-js', '../server/static/particlesjs.json', function() {
+	console.log('particles.json config loaded');
+	});
 
     $('.carousel.carousel-slider').carousel({
         fullWidth: true,
