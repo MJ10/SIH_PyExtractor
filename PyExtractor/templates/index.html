@@ -7,8 +7,12 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
 	<link rel="stylesheet" href="/static/css/main.css">
+	  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" type="text/javascript"></script>
+
 </head>
 <body unselectable="on" onselectstart="return false;" onmousedown="return false">
+	<div id="particles-js">
+        </div>
 	<div class="carousel carousel-slider center">
 		<div class="carousel-fixed-item center">
 			{% if user|isAuthenticated %}
