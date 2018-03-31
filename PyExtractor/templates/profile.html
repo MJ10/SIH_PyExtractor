@@ -2,7 +2,7 @@
 {% load app_filters %}
 {% block title %}Overview{% endblock %}
 {% block sidebar_profile %}active{% endblock %}
-{% block body_header %}Welcome {{ user.account }}{% endblock %}
+{% block body_header %}Welcome {{ user.email }}{% endblock %}
 {% block body %}
     <p class="lead">Navigate through the PyExtractor system using the bar on the left-hand side of the browser.</p>
     {% if user.account.role <= 20 %}
@@ -60,9 +60,5 @@
     {% else %}
         <div class="col-md-6">
     {% endif %}
-        <div class="panel panel-primary">
-            <div class="panel-heading">Recent messages</div>
-            
-        <div class="panel-footer"><a href="/message/list/">For a more detailed message view, click here</a></div>
-    </div>
+        
 {% endblock %}

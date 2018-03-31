@@ -17,7 +17,7 @@ def _convert_to_degress(value):
     return d + (m / 60.0) + (s / 3600.0)
 
 
-def getGPS(filepath):
+def getData(filepath):
     '''
     returns gps data if present other wise returns empty dictionary
     '''
@@ -28,20 +28,21 @@ def getGPS(filepath):
         latitude_ref = tags.get('GPS GPSLatitudeRef')
         longitude = tags.get('GPS GPSLongitude')
         longitude_ref = tags.get('GPS GPSLongitudeRef')
+        dateTaken = tags.get("EXIF DateTimeOriginal")
         if latitude:
             lat_value = _convert_to_degress(latitude)
             if latitude_ref.values != 'N':
                 lat_value = -lat_value
         else:
-            return {}
+            return {'latitude': None, 'longitude': None, 'dateTaken': dateTaken}
         if longitude:
             lon_value = _convert_to_degress(longitude)
             if longitude_ref.values != 'E':
                 lon_value = -lon_value
         else:
-            return {}
-        return {'latitude': lat_value, 'longitude': lon_value}
-    return {}
+            return {'latitude': None, 'longitude': None, 'dateTaken': dateTaken}
+        return {'latitude': lat_value, 'longitude': lon_value, 'dateTaken': dateTaken}
+    return {'latitude': None, 'longitude': None, 'dateTaken': dateTaken}
 
 
 # Testing Module

@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 DEPARTMENTS = (
-	(0,'Department of ISRO'), (1,'Department of Agriculture'), (2,'Department of Space')
+	(10,'Department of ISRO'), (20,'Department of Agriculture'), (30,'Department of Defence'),
+	(40,'Department of Telecommunications'), (50,'Department of IT')
 	)
 
 CHOICE = (
@@ -67,13 +68,16 @@ class Account(models.Model):
 class asset(models.Model):
 	img_name = models.CharField(max_length=200)
 	img_path = models.CharField(max_length=200)
-	extracted_text = models.CharField(max_length=500)
-	latitude = models.CharField(max_length=20)
-	longitude = models.CharField(max_length=20)
+	extracted_text = models.CharField(null=True,max_length=500)
+	latitude = models.CharField(null=True,max_length=20)
+	longitude = models.CharField(null=True,max_length=20)
 	department = models.CharField(max_length=50)
 	time = models.DateTimeField(auto_now_add=True)
+
 	kind = models.CharField(max_length=50,blank=True,default=None, null=True)
-	capacity = models.BigIntegerField(blank=True,default=0, null=True)
+
+	capacity = models.CharField(default=0, null=True, max_length=100)
+	owner = models.CharField(null=True,max_length=50)
 	"""docstring for asset"""
 	# def __init__(self,img_name,img_path,extracted_text,latitude,longitude,department,time):
 	# 	self.img_name = img_name
@@ -84,5 +88,5 @@ class asset(models.Model):
 	# 	self.department = department
 	# 	self.time = time
 	def __str__(self):
-		return self.img_name,self.img_path,self.extracted_text,self.latitude,self.longitude,self.department,self.time,self.kind,self.capacity
+		return self.img_name,self.img_path,self.extracted_text,self.latitude,self.longitude,self.department,self.time,self.kind,self.capacity, self.owner
 		

@@ -55,13 +55,13 @@ def logout_view(request):
         request.session['alert_success'] = saved_data['alert_success']
     if 'alert_danger' in saved_data:
         request.session['alert_danger'] = saved_data['alert_danger']
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/')
 
 
 def login_view(request):
     # Authentication check. Users currently logged in cannot view this page.
     if request.user.is_authenticated:
-        return HttpResponseRedirect('/profile/')
+        return HttpResponseRedirect('/explore/')
     # get template data from session
     template_data = views.parse_session(request,{'form_button':"Login"})
     # Proceed with the rest of view
@@ -74,7 +74,7 @@ def login_view(request):
             )
             login(request,user)
             request.session['alert_success'] = "Successfully logged into PyExtractor."
-            return HttpResponseRedirect('/profile/')
+            return HttpResponseRedirect('/explore/')
     else:
         form = LoginForm()
     template_data['form'] = form
@@ -96,9 +96,7 @@ def register_view(request):
             views.register_user(
                 form.cleaned_data['email'],
                 form.cleaned_data['password_first'],
-                form.cleaned_data['firstname'],
-                form.cleaned_data['lastname'],
-                Account.ACCOUNT_PATIENT
+                Account.ACCOUNT_ADMIN
             )
             user = authenticate(
                 username = form.cleaned_data['email'].lower(),

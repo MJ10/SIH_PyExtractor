@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Klokantech Basic GL Style using ol-mapbox-style preview</title>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.3.1/ol.css"> -->
+  <link rel="stylesheet" href="css/ol.css">
+
+  <head>
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <script src="js/leaflet.js"></script>    
+    <link href="css/mapbox-gl.css" rel='stylesheet' />
+    <script src="js/mapbox-gl.js"></script>
+    <script src="js/leaflet-mapbox-gl.js"></script>
+    
+
+
+     <meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.css" rel='stylesheet' />
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.35.1/mapbox-gl.js"></script>
+  <script src="http://rawgit.com/mapbox/mapbox-gl-leaflet/master/leaflet-mapbox-gl.js"></script> -->
+
+  </head>
+  
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+      background-color: #f8f4f0;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  
+</body>
+<!-- <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,Promise"></script> -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.3.1/ol.js"></script> -->
+  <!-- <script src="js/polyfill.js"></script>
+
+  <script src="js/ol.js"></script>
+  
+  <script src="ol.js"></script>
+  <script src="olms.js"></script> -->
+<script>
+  var map = L.map('map');
+  map.options.minZoom = 2;
+  var gl = L.mapboxGL({
+      accessToken: '{token}',
+      // style: 'https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json'
+      // style: 'js/style-cdn.json'
+      style:'http://localhost:8080/styles/klokantech-basic/style.json'
+      
+  }).addTo(map);
+  map.fitWorld();
+
+  // Get Latitude and longitude
+  map.on('click', function(e) {
+    alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)
+    onLocationfound(e);
+  });
+
+var marker = L.marker([13.0108, 74.7943]).addTo(map);
+
+onLocationfound = function(e){
+    marker.setLatLng(e.latlng);
+    map.setView(marker.getLatLng(),map.getZoom()); 
+    alert('Marker has been set to position :'+marker.getLatLng().toString());
+};
+
+map.on('locationfound', onLocationfound);
+
+marker.bindPopup("<b>Hi there!</b><br>NITK").openPopup();
+
+var popup = L.popup()
+    .setLatLng([23.0225, 72.5714])
+    .setContent("Hello Ahmedabad")
+    .openOn(map);
+
+</script>
+</html>

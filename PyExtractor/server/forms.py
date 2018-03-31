@@ -113,25 +113,37 @@ class AccountRegisterForm(BasicForm):
         return cleaned_data
 
 
-class QueryForm(BasicForm):
-	department = forms.ChoiceField(choices=DEPARTMENTS)
-	setup_field(department,'Select the department')
-	latitude = forms.CharField(required=True, max_length=50)
-	setup_field(latitude,'Enter the latitude')
-	longitude = forms.CharField(required=True, max_length=50)
-	setup_field(longitude,'Enter the longitude')
-	distance = forms.CharField(required=True, max_length=50)
-	setup_field(distance,'Enter the distance(in km)')
-	choice = forms.ChoiceField(choices=CHOICE)
-	setup_field(choice,'Choose your choice')
-	input_text = forms.CharField(required=True, max_length=50)
-	setup_field(input_text,'Enter the value')
+class UploadForm(BasicForm):
+    file = forms.FileField()
+    setup_field(file,'Choose a zip')
 
-	def assign(self, query):
-		query.department = self.cleaned_data['department']
-		query.latitude = self.cleaned_data['latitude']
-		query.longitude = self.cleaned_data['longitude']
-		query.distance = self.cleaned_data['distance']
-		query.choice = self.cleaned_data['choice']
-		query.input_text = self.cleaned_data['input_text']
+
+class QueryForm(BasicForm):
+    latitude = forms.CharField(required=True, max_length=50)
+    setup_field(latitude,'Enter the latitude')
+    longitude = forms.CharField(required=True, max_length=50)
+    setup_field(longitude,'Enter the longitude')
+    
+    distance = forms.CharField(required=True, max_length=50)
+    setup_field(distance,'Enter the distance(in km)')	
+
+    department = forms.ChoiceField(choices=DEPARTMENTS)
+    setup_field(department,'Select the department')
+
+    year = forms.CharField(required=False,max_length=4)
+    setup_field(year, 'Enter the start year')
+
+    input_text_type = forms.CharField(required=False, max_length=50)
+    setup_field(input_text_type,'Enter the type of asset')
+    input_text_capacity = forms.CharField(required=False, max_length=50)
+    setup_field(input_text_capacity,'Enter the capacity')
+
+    def assign(self, query):
+        query.department = self.cleaned_data['department']
+        query.latitude = self.cleaned_data['latitude']
+        query.longitude = self.cleaned_data['longitude']
+        query.distance = self.cleaned_data['distance']
+        query.year = self.cleaned_data['year']
+        query.input_text_type = self.cleaned_data['input_text_type']
+        query.input_text_capacity = self.cleaned_data['input_text_capacity']
  

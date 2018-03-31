@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from server import models
-from server.models import asset
+from server.models import asset, Account
 from server.forms import QueryForm
 import math
+from server import views
 
 radius_of_earth = 6371
 
@@ -25,6 +26,9 @@ def parse_session(request, template_data=None):
 
 
 def explore(request):
+	authentication_result = views.authentication_check(request, [Account.ACCOUNT_ADMIN])
+	if authentication_result is not None:
+		return authentication_result
 	template_data = parse_session(
 		request,
 		{'form_button':'Query'}
@@ -36,8 +40,11 @@ def explore(request):
 			print(form.cleaned_data['latitude'])
 			print(form.cleaned_data['longitude'])
 			print(form.cleaned_data['distance'])
+			print(form.cleaned_data['year'])
+			print(form.cleaned_data['input_type_text'])
+			print(form.cleaned_data['input_type_capacity'])
 			# Query to find images in that range
-			find_images(form.cleaned_data['department'],form.cleaned_data['latitude'],form.cleaned_data['longitude'], form.cleaned_data['distance'], form.cleaned_data['choice'], form.cleaned_data['input_text'])
+			find_images(form.cleaned_data['department'],form.cleaned_data['latitude'],form.cleaned_data['longitude'], form.cleaned_data['distance'], form.cleaned_data['year'], form.cleaned_data['input_text_type'], form.cleaned_data['input_text_capacity'])
 	else:
 		form = QueryForm()
 	template_data['form'] = form
@@ -45,7 +52,7 @@ def explore(request):
 
 
 # Function to find images having the distance which user wants
-def find_images(department,latitude,longitude, distance, choice, input_text):
+def find_images(department,latitude,longitude, distance, year, input_text_type, input_text_capacity):
 	print(department,latitude,longitude)
 	phi1 = toRadians(latitude)
 	lambda1 = toRadians(longitude)
